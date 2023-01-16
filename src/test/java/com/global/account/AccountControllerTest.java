@@ -1,5 +1,6 @@
 package com.global.account;
 
+import com.global.domain.Account;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,15 @@ class AccountControllerTest {
            .andExpect(status().is3xxRedirection())
            .andExpect(view().name("redirect:/"));
 
+
+
+
+    Account account = accountRepository.findByEmail("test@global.com");
+    // null 이아닌지 확인하기
+    assertNotNull(account);
+    //회원가입할 때 입력한 값과 ecoding 된 값이 일치하는지 확인하기
+    assertNotEquals(account.getPassword(),"12345678");
+    // 이메일 확인하기
     assertTrue(accountRepository.existsByEmail("test@global.com"));
     // mail 을 보내는지 test 하기
     then(javaMailSender).should().send(any(SimpleMailMessage.class));
